@@ -6,61 +6,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrobbler</title>
-</head>
-<body>
-    <h1>Scrobbler</h1>
+    <link rel="stylesheet" href="{% static 'artists/css/output.css' %}">
+    <style>
+        @layer utilities {
+            .scrollbar-hide {
+                scrollbar-width: none;
+            }
+            
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        body {
+            font-family: 'Syne', sans-serif;
+            color: rgb(197, 196, 196);
+            background-color: black;
+        }
 
-    <form method="GET" action="">
-        <input type="text" name="q" value="{{ query }}" placeholder="Busca un artista">
-        <button type="submit">Buscar</button>
+    </style>
+</head>
+<body class="
+    p-0
+    m-0
+    ">
+    <h1 class="
+        text-7xl
+        text-accent
+        p-5
+        ">Scrobbler</h1>
+    
+    <p class="
+        mx-5
+        mb-8">Introduce un artista para ver sus datos en Last.fm.</p>
+
+    <form method="GET" action="" class=" 
+        inline-flex
+        text-center 
+        mb-8
+        mx-5
+        border
+        border-accent
+        rounded-xl
+        bg-gray-900">
+        <input type="text" name="q" value="{{ query }}" placeholder="Busca un artista" class="
+            p-2
+            text-white
+            ">
+        <button 
+            type="submit"
+            class="
+                text-white
+                p-2
+                border-tr-xl
+                border-br-xl
+
+                hover:bg-accent
+                hover:border-tr-xl
+                hover:cursor-pointer
+            ">
+                Buscar
+        </button>
 
     </form>
 
     {% if artist %}
-        <h2>{{ artist.name }}</h2>
-        <p>Oyentes mensuales: {{ artist.stats.listeners }}</p>
-        <p>Scrobbles totales: {{ artist.stats.playcount }}</p>
-        <p>{{ artist.bio.summary | safe }}</p>
-        <div>
-            <h3>Top tracks</h3>
-            <ul>
-                {% for track in top_tracks %}
-                    <li>{{ track.name }} - {{ track.playcount }} reproducciones</li>
+        <h2 class="
+            text-6xl
+            p-5
+            mb-8
+            text-white
+            ">{{ artist.name }}</h2>
+        <div class="mb-8 p-5">
+            <ul class="
+                flex
+                gap-2">
+                {% for tag in top_tags|slice:":6" %}
+                    <li class="
+                        p-1
+                        border
+                        bg-gray-900
+                        ">{{ tag.name }}</li>
                 {% endfor %}
             </ul>
         </div>
-        <div>
-            <h3>Similar artists</h3>
+        <div class="
+            p-5
+            text-center
+            text-lg
+            bg-gray-900
+            border
+            rounded-xl
+            mx-5
+            flex-inline
+            flex-row
+            mb-8">
+            <p>OYENTES MENSUALES</p>
+            <p class="
+                text-4xl
+                text-white">{{ artist.stats.listeners }}</p>        
+        </div>
+        <div class="
+            p-5
+            text-center
+            text-lg
+            bg-gray-900
+            border
+            rounded-xl
+            mx-5
+            flex-inline
+            flex-row
+            mb-8">
+            <p>SCROBBLES TOTALES</p>
+            <p class="
+                text-4xl
+                text-white">{{ artist.stats.playcount }}</p>
+        
+        </div>
+        <p class="
+            text-lg
+            mx-5
+            mb-8">{{ artist.bio.summary | safe }}</p>
+        <div class="
+            p-5
+            text-center
+            text-lg
+            bg-gray-900
+            border
+            rounded-xl
+            mx-5
+            flex-inline
+            flex-row
+            mb-8">
+            <h3 class="mb-2">TOP TRACKS</h3>
+            <ul>
+                {% for track in top_tracks %}
+                    <li><span class="text-white">{{ track.name }}</span> - {{ track.playcount }} reproducciones</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="
+            p-5
+            text-center
+            text-lg
+            bg-gray-900
+            border
+            rounded-xl
+            mx-5
+            flex-inline
+            flex-row
+            mb-8">
+            <h3 class="mb-2">SIMILAR ARTISTS</h3>
             <ul>
                 {% for similar in similar_artists %}
                     <li>{{ similar.name }}</li>
                 {% endfor %}
             </ul>
         </div>
-        <div>
-            <h3>Tags</h3>
-            <ul>
-                {% for tag in top_tags|slice:":6" %}
-                    <li>{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div>
-            <h3>Top Albums</h3>
-            <ul>
-                {% for album in top_albums %}
-                    <li>
-                        {% if album.cover %}
-                            <img src="{{ album.cover }}" alt="{{ album.name }}">
-                        {% endif %}
-                        {{ album.name }}
-                    </li>
-                {% endfor %}
-            </ul>
+        
+        <div class="text-center 
+            mx-5">
+            <h3 class="mb-2">TOP ALBUMS</h3>
+            <div class="relative group">
+                <button id="prev" class="
+                    absolute
+                    left-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-10
+                    w-10
+                    h-10"
+                    onclick="moverCarrusel(-1)"> ←
+                </button> 
+                <div id="carrusel" class="
+                    flex
+                    gap-4
+                    overflow-x-auto
+                    pb-4
+                    scroll-smooth
+                    scrollbar-hide
+                    ">
+                    {% for album in top_albums %}
+                        <div class="
+                            flex
+                            flex-col
+                            gap-2
+                            flex-shrink-0
+                            ">
+                            {% if album.cover %}
+                                <img class="w-32" src="{{ album.cover }}" alt="{{ album.name }}">
+                            {% endif %}
+                            <span class="
+                                text-xs
+                                w-32
+                                truncate
+                                ">{{ album.name }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button id="next" class="
+                    absolute
+                    right-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-10
+                    w-10
+                    h-10"
+                    onclick="moverCarrusel(1)"> →
+                </button> 
+            </div>
+            
         </div>
     {% elif query %}
         <p>No se encontró ningún artista</p>
     {% endif %}
+    <script>
+        const carrusel = document.getElementById('carrusel');
+        const prev = document.getElementById('prev');
+        const next = document.getElementById('next');
 
+        prev.classList.remove('hidden');
+        prev.classList.add('flex');
+        next.classList.remove('hidden');
+        next.classList.add('flex');
+
+        function moverCarrusel(direction) {
+            carrusel.scrollBy({ 
+                left:direction * 300,
+                behavior: 'smooth'
+            });
+        }
+
+        carrusel.addEventListener('scroll', () => {
+            prev.style.opacity = carrusel.scrollLeft > 0 ? '1': '0';
+            next.style.opacity = carrusel.scrollLeft < carrusel.scrollWidth - carrusel.clientWidth ? '1' : '0';
+        });
+    </script>
 </body>
 </html>

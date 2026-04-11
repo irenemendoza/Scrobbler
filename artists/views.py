@@ -62,7 +62,6 @@ def artist_search(request):
             'artist': query,
             'api_key': settings.LASTFM_API_KEY,
             'format': 'json',
-            'limit': 5,
         })
         top_albums_data = top_albums_response.json()
         if 'topalbums' in top_albums_data:

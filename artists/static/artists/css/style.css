@@ -15,3 +15,10 @@
     src: url('../fonts/Syne-ExtraBold.woff2') format('woff2');
     font-weight: 800;
 }
+
+@import "tailwindcss";
+@source "./artists/templates";
+
+@theme{
+    --color-accent: #CAFF00; 
+}
