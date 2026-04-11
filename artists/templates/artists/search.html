@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrobbler</title>
+</head>
+<body>
+    <h1>Scrobbler</h1>
+
+    <form method="GET" action="">
+        <input type="text" name="q" value="{{ query }}" placeholder="Busca un artista">
+        <button type="submit">Buscar</button>
+
+    </form>
+
+    {% if artist %}
+        <h2>{{ artist.name }}</h2>
+        <p>Oyentes mensuales: {{ artist.stats.listeners }}</p>
+        <p>Scrobbles totales: {{ artist.stats.playcount }}</p>
+        <p>{{ artist.bio.summary | safe }}</p>
+        <div>
+            <h3>Top tracks</h3>
+            <ul>
+                {% for track in top_tracks %}
+                    <li>{{ track.name }} - {{ track.playcount }} reproducciones</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Similar artists</h3>
+            <ul>
+                {% for similar in similar_artists %}
+                    <li>{{ similar.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Tags</h3>
+            <ul>
+                {% for tag in top_tags|slice:":6" %}
+                    <li>{{ tag.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Top Albums</h3>
+            <ul>
+                {% for album in top_albums %}
+                    <li>
+                        {% if album.cover %}
+                            <img src="{{ album.cover }}" alt="{{ album.name }}">
+                        {% endif %}
+                        {{ album.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% elif query %}
+        <p>No se encontró ningún artista</p>
+    {% endif %}
+
+</body>
+</html>
