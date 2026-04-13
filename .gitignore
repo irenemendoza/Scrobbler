@@ -3,7 +3,6 @@ env/
 __pycache__/
 *.pyc
 db.sqlite3
-.DS_Storeartists/static/artists/css/output.css
-__pycache__/
-*.pyc
+.DS_Store
+artists/static/artists/css/output.css
 tailwindcss
