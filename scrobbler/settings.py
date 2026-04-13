@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,3 +133,5 @@ load_dotenv()
 
 LASTFM_API_KEY = os.getenv('LASTFM_API_KEY')
 LASTFM_BASE_URL = os.getenv('LASTFM_BASE_URL')
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
