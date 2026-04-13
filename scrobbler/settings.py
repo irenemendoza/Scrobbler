@@ -122,7 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'artists' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -134,4 +136,3 @@ load_dotenv()
 LASTFM_API_KEY = os.getenv('LASTFM_API_KEY')
 LASTFM_BASE_URL = os.getenv('LASTFM_BASE_URL')
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
