@@ -23,7 +23,7 @@ A music analytics dashboard built with Django and the Last.fm API. Search for an
 - **API:** [Last.fm API](https://www.last.fm/api)
 - **Styling:** Tailwind CSS v4, Syne font
 - **Libraries:** `requests`, `python-dotenv`, `whitenoise`, `gunicorn`
-- **Deployment:** Render
+- **Deployment:** DigitalOcean (Ubuntu 24.04, CloudPanel, Nginx, Gunicorn)
 
 ---
 
@@ -55,6 +55,7 @@ Create a `.env` file in the root of the project:
 
 ```
 LASTFM_API_KEY=your_api_key_here
+LASTFM_BASE_URL=your_base_url_here
 ```
 
 You can get a free API key at [last.fm/api](https://www.last.fm/api).
