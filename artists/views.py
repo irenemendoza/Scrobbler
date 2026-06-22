@@ -1,3 +1,4 @@
+import logging
 import requests
 from django.shortcuts import render
 from django.conf import settings
@@ -5,6 +6,8 @@ from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+logger = logging.getLogger(__name__)
 
 def fetch_artist_data(query):
     artist_data = None
@@ -22,6 +25,8 @@ def fetch_artist_data(query):
     data = artist_response.json()
     if 'artist' in data:
         artist_data = data['artist']
+    else:
+        logger.error("Last.fm artist.getinfo failed for query=%r: %s", query, data)
 
     toptracks_response = requests.get(settings.LASTFM_BASE_URL, params={
         'method': 'artist.gettoptracks',
