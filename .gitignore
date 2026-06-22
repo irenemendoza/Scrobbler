@@ -6,3 +6,4 @@ db.sqlite3
 .DS_Store
 artists/static/artists/css/output.css
 tailwindcss
+staticfiles/
